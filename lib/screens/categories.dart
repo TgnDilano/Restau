@@ -35,27 +35,27 @@ class ProductDetail extends StatelessWidget {
               alignment: Alignment.center,
               width: double.infinity,
               height: 320,
-              child: Image.network(
-                imgUrl,
+              child: Image.asset(
+                "assets/$imgUrl",
                 width: double.infinity,
                 height: 320,
                 errorBuilder: (context, _, trace) {
-                  return Container();
+                  return Container(color:Colors.red);
                 },
-                loadingBuilder: (ctx, _, trace) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300]!,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      width: double.infinity,
-                      height: 320,
-                    ),
-                  );
-                },
+                // loadingBuilder: (ctx, _, trace) {
+                //   return Padding(
+                //     padding: const EdgeInsets.only(left: 12),
+                //     child: Container(
+                //       decoration: BoxDecoration(
+                //         color: Colors.grey[300]!,
+                //         borderRadius:
+                //             const BorderRadius.all(Radius.circular(8)),
+                //       ),
+                //       width: double.infinity,
+                //       height: 320,
+                //     ),
+                //   );
+                // },
               ),
             ),
             const SizedBox(height: 16),

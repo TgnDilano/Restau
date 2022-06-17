@@ -239,26 +239,12 @@ class Dish extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Image.network(
-                imgUrl,
+              child: Image.asset(
+                "assets/$imgUrl",
                 width: 215,
                 height: 220,
                 errorBuilder: (context, _, trace) {
                   return Container();
-                },
-                loadingBuilder: (ctx, _, trace) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300]!,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      width: 160,
-                      height: 100,
-                    ),
-                  );
                 },
               ),
             ),
