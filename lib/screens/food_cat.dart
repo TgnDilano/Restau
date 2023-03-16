@@ -20,12 +20,11 @@ class _FoodCategoriesState extends State<FoodCategories> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(
-            top: 16,
             left: 12,
             right: 12,
           ),
@@ -42,13 +41,13 @@ class _FoodCategoriesState extends State<FoodCategories> {
                       padding: const EdgeInsets.all(6),
                       child: Icon(
                         FontAwesomeIcons.barsStaggered,
-                        color: Colors.grey[700],
+                        color: Colors.grey[600],
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: Colors.grey[100],
                         borderRadius: const BorderRadius.all(
                           Radius.circular(8),
                         ),
@@ -57,7 +56,7 @@ class _FoodCategoriesState extends State<FoodCategories> {
                     ),
                     const SizedBox(
                       width: 40,
-                      height: 40,
+                      height: 20,
                     ),
                   ],
                 ),
@@ -81,7 +80,7 @@ class _FoodCategoriesState extends State<FoodCategories> {
                   cursorColor: Colors.orange,
                   decoration: InputDecoration(
                     suffixIcon: const Icon(
-                      FontAwesomeIcons.search,
+                      FontAwesomeIcons.magnifyingGlass,
                       color: Colors.black87,
                     ),
                     hintText: "Find your yummy",
@@ -133,41 +132,39 @@ class _FoodCategoriesState extends State<FoodCategories> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: const Text(
-                  "Products",
+                  "Recommended Dishes",
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 24,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  return Container(
-                    height: constraints.maxWidth > 700 ? 280 : 535,
-                    child: GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: catAndProducts[key]?.length,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Dish(
-                          imgUrl: catAndProducts[key]![index]['imgUrl'] ?? "",
-                          title: catAndProducts[key]![index]['title'] ??
-                              "Burger Lite",
-                          subText:
-                              catAndProducts[key]![index]['subText'] ?? "Spicy",
-                          price: double.parse(
-                            catAndProducts[key]![index]['price'].toString(),
-                          ),
-                        );
-                      },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: constraints.maxWidth > 700 ? 2 : 1,
-                        childAspectRatio: 20 / 9,
-                        mainAxisSpacing: 5,
-                        crossAxisSpacing: 5,
-                      ),
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: catAndProducts[key]?.length,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Dish(
+                        imgUrl: catAndProducts[key]![index]['imgUrl'] ?? "",
+                        title: catAndProducts[key]![index]['title'] ??
+                            "Burger Lite",
+                        subText:
+                            catAndProducts[key]![index]['subText'] ?? "Spicy",
+                        price: double.parse(
+                          catAndProducts[key]![index]['price'].toString(),
+                        ),
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: constraints.maxWidth > 700 ? 2 : 1,
+                      childAspectRatio: 20 / 9,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5,
                     ),
                   );
                 },
@@ -197,7 +194,7 @@ class MenuItems extends StatelessWidget {
       padding: const EdgeInsets.only(right: 6),
       child: Column(
         children: [
-          Container(
+          AnimatedContainer(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(
               vertical: 6,
@@ -207,11 +204,13 @@ class MenuItems extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(8),
               ),
-              color: selected ? Colors.orange : Colors.transparent,
+              color: selected ? Colors.orange : Colors.white,
             ),
+            duration: const Duration(milliseconds: 250),
             child: Text(
               text,
               style: TextStyle(
+                fontSize: 15,
                 color: selected ? Colors.white : Colors.black,
               ),
             ),
@@ -254,6 +253,7 @@ class Dish extends StatelessWidget {
         );
       },
       child: Container(
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           border: Border.all(
             width: 0.8,
@@ -274,7 +274,7 @@ class Dish extends StatelessWidget {
                     tag: imgUrl,
                     child: Image.asset(
                       "assets/$imgUrl",
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       height: 140,
                       errorBuilder: (context, _, trace) {
                         return Container();
@@ -290,17 +290,16 @@ class Dish extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Text(
-                        title,
-                        maxLines: 4,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.orange,
-                        ),
+                    Text(
+                      title,
+                      maxLines: 4,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.orange,
                       ),
                     ),
                     const SizedBox(height: 3),
@@ -314,34 +313,31 @@ class Dish extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 3),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "\$ $price",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "\$ $price",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(
-                            width: 12,
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            shape: BoxShape.circle,
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              FontAwesomeIcons.heart,
-                              color: Colors.red,
-                              size: 20,
-                            ),
+                          child: const Icon(
+                            FontAwesomeIcons.heart,
+                            color: Colors.red,
+                            size: 20,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
